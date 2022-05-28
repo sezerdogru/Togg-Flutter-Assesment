@@ -11,26 +11,12 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  final usernameCtrl = TextEditingController();
-  final passwordCtrl = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    usernameCtrl.addListener(() {});
-    passwordCtrl.addListener(() {});
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    usernameCtrl.dispose();
-    passwordCtrl.dispose();
-  }
+  final TextEditingController usernameCtrl = TextEditingController();
+  final TextEditingController passwordCtrl = TextEditingController();
 
   void login(BuildContext context) {
-    String username = usernameCtrl.text;
-    String password = passwordCtrl.text;
+    String username = usernameCtrl.text.trim();
+    String password = passwordCtrl.text.trim();
     context.read<Auth>().login(username, password);
   }
 
