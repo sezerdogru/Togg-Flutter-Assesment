@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:togg_case/service/poi.pb.dart';
@@ -8,15 +10,15 @@ class Auth with ChangeNotifier {
 
   String get token => _token;
 
-  void login() async {
+  void login(String username, String password) async {
     SharedPreferences shared = await SharedPreferences.getInstance();
     try {
-      LoginReply response = await AuthService.login("Test", "Togg");
+      LoginReply response = await AuthService.login(username, password);
       _token = response.token;
       shared.setString("token", response.token);
       notifyListeners();
     } catch (e) {
-      print("error=${e.toString()}");
+      log("error=${e.toString()}");
     }
   }
 }
