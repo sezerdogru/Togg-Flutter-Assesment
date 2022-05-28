@@ -6,12 +6,23 @@ import 'package:togg_case/service/poi.pb.dart';
 import 'package:togg_case/service/service.auth.dart';
 
 class Auth with ChangeNotifier {
-  String _token = "";
+  String? _token;
+  late SharedPreferences shared;
+  String? get token => _token;
 
-  String get token => _token;
+  Auth(BuildContext _) {
+    checkLogged();
+  }
+
+  void checkLogged() async {
+    shared = await SharedPreferences.getInstance();
+    String? token = shared.getString("token");
+    _token = token;
+    notifyListeners();
+  }
 
   void login(String username, String password) async {
-    SharedPreferences shared = await SharedPreferences.getInstance();
+    shared = await SharedPreferences.getInstance();
     try {
       LoginReply response = await AuthService.login(username, password);
       _token = response.token;

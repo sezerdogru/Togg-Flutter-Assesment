@@ -7,4 +7,5 @@ class Const {
   static String password = "Password";
   static String passwordHint = "Enter password";
   static String login = "Login";
+  static String locations = "Locations";
 }
