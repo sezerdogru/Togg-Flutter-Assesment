@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:togg_case/const.dart';
+import 'package:togg_case/service/poi.pb.dart';
+import 'package:togg_case/service/service.locations.dart';
 
 class Locations extends StatefulWidget {
   const Locations({Key? key}) : super(key: key);
@@ -14,6 +16,54 @@ const LatLng _kMapCenter = LatLng(52.4478, -3.5402);
 class MarkerIconsBodyState extends State<Locations> {
   GoogleMapController? controller;
   BitmapDescriptor? _markerIcon;
+  late List<PoiReply> locations;
+
+  @override
+  void initState() {
+    super.initState();
+    getLocations();
+  }
+
+  void getLocations() async {
+    var locations = await LocationService.getPois();
+    locations = await locations.toList();
+    List<Marker> l = [];
+    for (PoiReply element in locations) {
+      Marker marker = createNewMarker(element);
+      l.add(marker);
+      print(marker);
+    }
+
+    setState(() {
+      locations.addAll(l);
+    });
+  }
+
+  createNewMarker(PoiReply element) {
+    return Marker(
+      markerId: MarkerId('marker_${element.id}'),
+      position: LatLng(element.lat, element.lon),
+      icon: _markerIcon!,
+      onTap: () {
+        controller?.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(element.lat, element.lon),
+              zoom: 18,
+            ),
+          ),
+        );
+        getLocations();
+        showModalBottomSheet(
+            context: context,
+            builder: (builder) {
+              return Container(
+                child: _buildBottonNavigationMethod("element"),
+              );
+            });
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +111,7 @@ class MarkerIconsBodyState extends State<Locations> {
               ),
             ),
           );
+          getLocations();
           showModalBottomSheet(
               context: context,
               builder: (builder) {

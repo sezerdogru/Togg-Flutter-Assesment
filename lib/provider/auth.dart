@@ -16,7 +16,7 @@ class Auth with ChangeNotifier {
   String? get token => _token;
 
   Auth(BuildContext _) {
-    checkLogged();
+    //checkLogged();
   }
 
   void checkLogged() async {
