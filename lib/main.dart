@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: context.watch<Auth>().token == null
+      home: context.read<Auth>().token == null
           ? const Login()
           : const Locations(),
     );

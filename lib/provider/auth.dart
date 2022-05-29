@@ -16,15 +16,17 @@ class Auth with ChangeNotifier {
 
   void checkLogged() async {
     shared = await SharedPreferences.getInstance();
+    shared.clear();
     String? token = shared.getString("token");
     _token = token;
     notifyListeners();
   }
 
-  void login(String username, String password) async {
+  void login(BuildContext ctx, String username, String password) async {
     shared = await SharedPreferences.getInstance();
     try {
       LoginReply response = await AuthService.login(username, password);
+      print(response.toString());
       _token = response.token;
       shared.setString("token", response.token);
       notifyListeners();

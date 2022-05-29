@@ -17,7 +17,7 @@ class _LoginState extends State<Login> {
   void login(BuildContext context) {
     String username = usernameCtrl.text.trim();
     String password = passwordCtrl.text.trim();
-    context.read<Auth>().login(username, password);
+    context.read<Auth>().login(context, username, password);
   }
 
   @override
@@ -25,7 +25,7 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text("Login Page"),
+        title: Text(Const.loginTitle),
         centerTitle: true,
       ),
       body: Column(
@@ -36,6 +36,7 @@ class _LoginState extends State<Login> {
             padding: const EdgeInsets.symmetric(horizontal: 15),
             child: TextField(
               controller: usernameCtrl,
+              key: const Key("username"),
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 labelText: Const.username,
@@ -46,6 +47,7 @@ class _LoginState extends State<Login> {
           Padding(
             padding: const EdgeInsets.all(15),
             child: TextField(
+              key: const Key("password"),
               obscureText: true,
               controller: passwordCtrl,
               decoration: InputDecoration(
