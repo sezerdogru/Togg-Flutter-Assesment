@@ -7,6 +7,9 @@ class Const {
   static String password = "Password";
   static String passwordHint = "Enter password";
   static String login = "Login";
+  static String ok = "OK";
+  static String loginError = "Login Error";
   static String loginTitle = "Login Page";
   static String locations = "Locations";
+  static String fillAllFields = "Fill all fields";
 }
